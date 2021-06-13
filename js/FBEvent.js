@@ -152,8 +152,8 @@
      }
  }
 
- function FBInit(FBAppId) {
-     if (FBAppId) {
+ function FBInit(FB_app_id) {
+     if (FB_app_id) {
          FBReady().then(function () {
              FB.init({
                  appId: FBAppId,
@@ -162,7 +162,7 @@
                  version: 'v10.0'
              });
              FB.AppEvents.logPageView();
-             window.FBAppId = FBAppId;
+             window.FB_app_id = FB_app_id;
          })
      }
  }

@@ -25,19 +25,19 @@ function copyText(text) {
 
 $(function () {
     // Fackbook
-    $.FBInit('483706446108606');
+    // $.FBInit('483706446108606');
 
-    // 登入 Facebook
-    $('.fb-login').click(function () {
-        $.FBLogin();
-    })
-    // 分享 Facebook
-    $('.fb-share').click(function () {
-        $.FBShare({
-            url: 'www.google.com',
-            hashtag: '#hashtag'
-        });
-    })
+    // // 登入 Facebook
+    // $('.fb-login').click(function () {
+    //     $.FBLogin();
+    // })
+    // // 分享 Facebook
+    // $('.fb-share').click(function () {
+    //     $.FBShare({
+    //         url: 'www.google.com',
+    //         hashtag: '#hashtag'
+    //     });
+    // })
 
     // End Fackbook 
 
@@ -80,4 +80,47 @@ $(function () {
         trackEvent(trackTitle, track);
     });
     // END GA
+
+    function initVideoSwiper($elment) {
+        $elment.each(function (idx, el) {
+            var $el = $(el);
+            var swiper = new Swiper($el, {
+                autoHeight: true,
+                loop: true,
+                nextButton: $elment.parent().find('.next')[0],
+                prevButton: $elment.parent().find('.prev')[0],
+                onSlideChangeEnd: function (swiper) {
+                    playSwiperVideo();
+                }
+            })
+
+            function playSwiperVideo() {
+                var $slides = $elment.find('.swiper-slide');
+                var $activeSlide = $slides.filter(".swiper-slide-active");
+
+                $slides.find('.yt-player').html('');
+                var $ytPlayer = $activeSlide.find('.yt-player');
+                if ($ytPlayer.length) {
+                    initVideo($ytPlayer).then(function (player) {
+                        if (player && player.playVideo) {
+                            // player.playVideo();
+                        }
+                    });
+                }
+            }
+
+            function stopSwiperVideo() {
+                var player = $elment.find('.swiper-slide-active .yt-player').data('player');
+                if (player && player.stopVideo) {
+                    player.stopVideo()
+                }
+            }
+            $el.data({
+                swiepr: swiper,
+                playSwiperVideo: playSwiperVideo,
+                stopSwiperVideo: stopSwiperVideo
+            })
+
+        })
+    }
 })
